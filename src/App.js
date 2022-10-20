@@ -6,9 +6,7 @@ import Table from './components/Table';
 function App() {
   return (
     <SwProvider>
-      <span>Hello, App!</span>
-      <Table>
-      </Table>
+      <Table />
     </SwProvider>
   );
 }
