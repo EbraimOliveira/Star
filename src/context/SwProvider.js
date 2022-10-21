@@ -5,7 +5,10 @@ import SwContext from './SwContext';
 function SwProvider({ children }) {
   const [dataAPI, setDataAPI] = useState([]);
   const [name, setName] = useState('');
-  const [population, setPopulation] = useState(0);
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [numberData, setNumberData] = useState(0);
+  const [filters, setFilters] = useState([]);
 
   const requestAPI = async () => {
     try {
@@ -25,17 +28,45 @@ function SwProvider({ children }) {
     setName(target.value);
   };
 
-  const handlePopulation = ({ target }) => {
-    setPopulation(target.value);
+  const changeNumber = ({ target }) => {
+    setNumberData(target.value);
+  };
+
+  const columnFilter = ({ target }) => {
+    setColumn(target.value);
+  };
+
+  const comparisonFilter = ({ target }) => {
+    setComparison(target.value);
+  };
+
+  const saveFilterInfos = () => {
+    setFilters((prevState) => [...prevState, {
+      column,
+      comparison,
+      numberData,
+    }]);
   };
 
   const myContext = useMemo(() => ({
     dataAPI,
     handleName,
     name,
-    handlePopulation,
-    population,
-  }), [name, dataAPI, population]);
+    changeNumber,
+    numberData,
+    columnFilter,
+    column,
+    comparisonFilter,
+    comparison,
+    saveFilterInfos,
+    filters,
+  }), [name,
+    dataAPI,
+    numberData,
+    column,
+    comparison,
+    filters,
+  ]);
 
   return (
     <SwContext.Provider value={ myContext }>

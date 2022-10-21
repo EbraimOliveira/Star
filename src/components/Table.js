@@ -2,7 +2,31 @@ import React, { useContext } from 'react';
 import SwContext from '../context/SwContext';
 
 function Table() {
-  const { dataAPI, name } = useContext(SwContext);
+  const { dataAPI,
+    name,
+    comparison,
+    column,
+    numberData,
+    filters,
+  } = useContext(SwContext);
+
+  const number = Number(numberData);
+
+  const applyFilters = (data) => {
+    if (filters.length > 0) {
+      switch (comparison) {
+      case 'maior que':
+        return data.filter((planet) => planet[column] > number);
+      case 'menor que':
+        return data.filter((planet) => planet[column] < number);
+      case 'igual a':
+        return data.filter((planet) => planet[column] === numberData);
+      default:
+        return true;
+      }
+    }
+    return data;
+  };
 
   return (
     <table>
@@ -26,7 +50,7 @@ function Table() {
       </thead>
       <tbody>
         {dataAPI.length > 0
-          && (dataAPI.filter((planet) => planet.name
+          && (applyFilters(dataAPI).filter((planet) => planet.name
             .toUpperCase().includes(name.toUpperCase()))
             .map((planet) => (
               <tr

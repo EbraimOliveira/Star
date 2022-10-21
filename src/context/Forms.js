@@ -2,7 +2,15 @@ import React, { useContext } from 'react';
 import SwContext from './SwContext';
 
 function Forms() {
-  const { name, handleName, population, handlePopulation } = useContext(SwContext);
+  const { name,
+    handleName,
+    numberData,
+    changeNumber,
+    columnFilter,
+    comparisonFilter,
+    saveFilterInfos,
+    filters,
+  } = useContext(SwContext);
 
   return (
     <form>
@@ -19,6 +27,7 @@ function Forms() {
         Coluna:
         <select
           data-testid="column-filter"
+          onChange={ columnFilter }
         >
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
@@ -32,6 +41,7 @@ function Forms() {
         Operador:
         <select
           data-testid="comparison-filter"
+          onChange={ comparisonFilter }
         >
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
@@ -40,16 +50,31 @@ function Forms() {
       </label>
       <input
         data-testid="value-filter"
-        value={ population }
+        value={ numberData }
         type="number"
-        onChange={ handlePopulation }
+        onChange={ changeNumber }
       />
       <button
         data-testid="button-filter"
         type="button"
+        onClick={ saveFilterInfos }
       >
         FILTRAR
       </button>
+      {filters.length > 0
+        && (filters.map((filter, index) => (
+          <div key={ filter.column + index }>
+            <p>
+              {`${filter.column}`}
+            </p>
+            <p>
+              {`${filter.comparison}`}
+            </p>
+            <p>
+              {`${filter.numberData}`}
+            </p>
+          </div>
+        )))}
     </form>
   );
 }
