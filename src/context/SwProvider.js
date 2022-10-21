@@ -4,6 +4,7 @@ import SwContext from './SwContext';
 
 function SwProvider({ children }) {
   const [dataAPI, setDataAPI] = useState([]);
+  const [name, setName] = useState('');
 
   const requestAPI = async () => {
     try {
@@ -14,6 +15,9 @@ function SwProvider({ children }) {
       throw new Error(error);
     }
   };
+  const handleName = ({ target }) => {
+    setName(target.value);
+  };
 
   useEffect(() => {
     requestAPI();
@@ -21,10 +25,12 @@ function SwProvider({ children }) {
 
   const myContext = useMemo(() => ({
     dataAPI,
-  }), [dataAPI]);
+    handleName,
+    name,
+  }), [name, dataAPI]);
 
   return (
-    <SwContext.Provider value={myContext}>
+    <SwContext.Provider value={ myContext }>
       {children}
     </SwContext.Provider>
   );
@@ -38,6 +44,7 @@ export default SwProvider;
 
 //  pesquisar :
 // WebGLTransformFeedback
+// FileSystemDirectoryHandle
 
 // Como fazer uma atualização de estado de forma assincrona:
 // é preciso passar outra callBack porque o Hook (useEffect) não pode ser diretamente async.
