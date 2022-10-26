@@ -5,24 +5,17 @@ import SwContext from './SwContext';
 function SwProvider({ children }) {
   const [dataAPI, setDataAPI] = useState([]);
   const [name, setName] = useState('');
-  const [column, setColumn] = useState('population');
+  const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('maior que');
   const [numberData, setNumberData] = useState(0);
-  const [filters, setFilters] = useState([]);
-
-  const requestAPI = async () => {
-    try {
-      const response = await fetch('https://swapi.dev/api/planets');
-      const { results } = await response.json();
-      setDataAPI(results);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-
-  useEffect(() => {
-    requestAPI();
-  }, []);
+  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+  const [myFilteredItens, setMyFilteredItens] = useState([]);
+  const [optionsList, setOptionsList] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water']);
 
   const handleName = ({ target }) => {
     setName(target.value);
@@ -40,13 +33,47 @@ function SwProvider({ children }) {
     setComparison(target.value);
   };
 
+  const requestAPI = async () => {
+    try {
+      const response = await fetch('https://swapi.dev/api/planets');
+      const { results } = await response.json();
+      setDataAPI(results);
+      setMyFilteredItens(results);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  useEffect(() => {
+    requestAPI();
+  }, []);
+
   const saveFilterInfos = () => {
-    setFilters((prevState) => [...prevState, {
+    setFilterByNumericValues((prevState) => [...prevState, {
       column,
       comparison,
-      numberData,
+      value: numberData,
     }]);
   };
+
+  const applyFilters = ({ column: newColumn, value, comparison: newComparison }, acc) => {
+    switch (newComparison) {
+      case 'maior que':
+        return acc.filter((planet) => Number(planet[newColumn]) > Number(value));
+      case 'menor que':
+        return acc.filter((planet) => Number(planet[newColumn]) < Number(value));
+      default:
+        return acc.filter((planet) => Number(planet[newColumn]) === Number(value));
+    }
+  };
+
+  useEffect(() => {
+    setMyFilteredItens(
+      filterByNumericValues
+        .reduce((acc, filter) => applyFilters(filter, acc), [...dataAPI]),
+    );
+    // setOptionsList(optionsList.filter((option) => option !== column));
+  }, [filterByNumericValues]);
 
   const myContext = useMemo(() => ({
     dataAPI,
@@ -59,17 +86,21 @@ function SwProvider({ children }) {
     comparisonFilter,
     comparison,
     saveFilterInfos,
-    filters,
+    filterByNumericValues,
+    optionsList,
+    myFilteredItens,
   }), [name,
     dataAPI,
     numberData,
     column,
     comparison,
-    filters,
+    filterByNumericValues,
+    optionsList,
+    myFilteredItens,
   ]);
 
   return (
-    <SwContext.Provider value={ myContext }>
+    <SwContext.Provider value={myContext}>
       {children}
     </SwContext.Provider>
   );
@@ -85,20 +116,3 @@ export default SwProvider;
 // WebGLTransformFeedback
 // FileSystemDirectoryHandle
 // Dados pessoais LGPD
-
-// Como fazer uma atualização de estado de forma assincrona:
-// é preciso passar outra callBack porque o Hook (useEffect) não pode ser diretamente async.
-// useEffect(() => {
-//   const atualizacaoAssincrona = async () => {
-//     setState((prevState) => prevState + 1)
-//   }
-//   atualizacaoAssincrona()
-// }, [])
-
-// Gera looping infinito pq o código será execultado sempre q o estado atualizar, e o estado será atualizado sempre q chamar a função:
-// useEffect(() => {
-//   const atualizacaoAssincrona = async () => {
-//     setState((prevState) => prevState + 1)
-//   }
-//   atualizacaoAssincrona()
-// }, [state])

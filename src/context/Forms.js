@@ -9,8 +9,15 @@ function Forms() {
     columnFilter,
     comparisonFilter,
     saveFilterInfos,
-    filters,
+    filterByNumericValues,
+    optionsList,
   } = useContext(SwContext);
+
+  const comparisonOptions = [
+    'maior que',
+    'menor que',
+    'igual a',
+  ];
 
   return (
     <form>
@@ -29,11 +36,8 @@ function Forms() {
           data-testid="column-filter"
           onChange={ columnFilter }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {optionsList
+            .map((option) => <option key={ option } value={ option }>{option}</option>)}
         </select>
       </label>
 
@@ -43,9 +47,9 @@ function Forms() {
           data-testid="comparison-filter"
           onChange={ comparisonFilter }
         >
-          <option value="maior que">maior que</option>
-          <option value="menor que">menor que</option>
-          <option value="igual a">igual a</option>
+          {comparisonOptions
+            .map((option) => <option key={ option } value={ option }>{option}</option>)}
+
         </select>
       </label>
       <input
@@ -61,8 +65,8 @@ function Forms() {
       >
         FILTRAR
       </button>
-      {filters.length > 0
-        && (filters.map((filter, index) => (
+      {filterByNumericValues.length > 0
+        && (filterByNumericValues.map((filter, index) => (
           <div key={ filter.column + index }>
             <p>
               {`${filter.column}`}
@@ -71,7 +75,7 @@ function Forms() {
               {`${filter.comparison}`}
             </p>
             <p>
-              {`${filter.numberData}`}
+              {`${filter.value}`}
             </p>
           </div>
         )))}
