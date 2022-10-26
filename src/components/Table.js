@@ -8,7 +8,9 @@ function Table() {
   } = useContext(SwContext);
 
   return (
-    <table>
+    <table
+      data-testid="table-test"
+    >
       <caption>Planets</caption>
       <thead>
         <tr>
@@ -33,7 +35,7 @@ function Table() {
             .toUpperCase().includes(name.toUpperCase()))
             .map((planet) => (
               <tr
-                key={ planet.name }
+                key={planet.name}
               >
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>

@@ -5,7 +5,6 @@ import SwContext from './SwContext';
 function SwProvider({ children }) {
   const [dataAPI, setDataAPI] = useState([]);
   const [name, setName] = useState('');
-  const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('maior que');
   const [numberData, setNumberData] = useState(0);
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
@@ -16,6 +15,7 @@ function SwProvider({ children }) {
     'diameter',
     'rotation_period',
     'surface_water']);
+  const [column, setColumn] = useState('');
 
   const handleName = ({ target }) => {
     setName(target.value);
@@ -54,16 +54,21 @@ function SwProvider({ children }) {
       comparison,
       value: numberData,
     }]);
+    setOptionsList(optionsList.filter((option) => option !== column));
   };
+
+  useEffect(() => {
+    setColumn(optionsList[0]);
+  }, [optionsList]);
 
   const applyFilters = ({ column: newColumn, value, comparison: newComparison }, acc) => {
     switch (newComparison) {
-      case 'maior que':
-        return acc.filter((planet) => Number(planet[newColumn]) > Number(value));
-      case 'menor que':
-        return acc.filter((planet) => Number(planet[newColumn]) < Number(value));
-      default:
-        return acc.filter((planet) => Number(planet[newColumn]) === Number(value));
+    case 'maior que':
+      return acc.filter((planet) => Number(planet[newColumn]) > Number(value));
+    case 'menor que':
+      return acc.filter((planet) => Number(planet[newColumn]) < Number(value));
+    default:
+      return acc.filter((planet) => Number(planet[newColumn]) === Number(value));
     }
   };
 
@@ -72,7 +77,6 @@ function SwProvider({ children }) {
       filterByNumericValues
         .reduce((acc, filter) => applyFilters(filter, acc), [...dataAPI]),
     );
-    // setOptionsList(optionsList.filter((option) => option !== column));
   }, [filterByNumericValues]);
 
   const myContext = useMemo(() => ({
@@ -100,7 +104,7 @@ function SwProvider({ children }) {
   ]);
 
   return (
-    <SwContext.Provider value={myContext}>
+    <SwContext.Provider value={ myContext }>
       {children}
     </SwContext.Provider>
   );
