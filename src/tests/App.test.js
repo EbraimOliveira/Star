@@ -14,9 +14,10 @@ beforeEach(() => {
 
 describe('Testar tudo', () => {
 
-  it('Possui um input para filtro Name', () => {
+  it('Possui os inputs de filtros', () => {
     render(<App />);
     expect(screen.getByTestId('name-filter')).toBeInTheDocument();
+    expect(screen.getByTestId('value-filter')).toBeInTheDocument();
   });
 
   it('Quantidade de options nos inputs', () => {
@@ -29,18 +30,10 @@ describe('Testar tudo', () => {
     expect(screen.getByTestId('table-test')).toBeInTheDocument();
   });
 
-  it('Renderiza o input de numero', () => {
-    render(<App />);
-    expect(screen.getByTestId('value-filter')).toBeInTheDocument();
-  })
 
-  it('Possui um botão de remover todas as filtragens', () => {
+  it('Possui um botão de filtrar e um para remover todas as filtragens', () => {
     render(<App />);
     expect(screen.getByTestId('button-remove-filters')).toBeInTheDocument();
-  })
-
-  it('Possui um botão para filtrar', () => {
-    render(<App />);
     expect(screen.getByTestId('button-filter')).toBeInTheDocument();
   })
 
