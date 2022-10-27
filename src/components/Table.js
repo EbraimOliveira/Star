@@ -35,7 +35,7 @@ function Table() {
             .toUpperCase().includes(name.toUpperCase()))
             .map((planet) => (
               <tr
-                key={planet.name}
+                key={ planet.name }
               >
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>

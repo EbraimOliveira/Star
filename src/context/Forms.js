@@ -11,6 +11,8 @@ function Forms() {
     saveFilterInfos,
     filterByNumericValues,
     optionsList,
+    clearFilters,
+    clearCollumn,
   } = useContext(SwContext);
 
   const comparisonOptions = [
@@ -65,18 +67,30 @@ function Forms() {
       >
         FILTRAR
       </button>
+
+      <button
+        data-testid="button-remove-filters"
+        type="button"
+        onClick={ clearFilters }
+      >
+        Remover todas filtragens
+      </button>
+
       {filterByNumericValues.length > 0
-        && (filterByNumericValues.map((filter, index) => (
-          <div key={ filter.column + index }>
-            <p>
-              {`${filter.column}`}
-            </p>
-            <p>
-              {`${filter.comparison}`}
-            </p>
-            <p>
-              {`${filter.value}`}
-            </p>
+        && (filterByNumericValues.map(({ column, comparison, value }, index) => (
+          <div
+            key={ column + index }
+            data-testid="filter"
+          >
+            <br />
+            {`${column}  ${comparison}  ${value} `}
+            <button
+              type="button"
+              onClick={ () => clearCollumn(column) }
+            >
+              x
+            </button>
+            <br />
           </div>
         )))}
     </form>

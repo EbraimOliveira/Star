@@ -6,14 +6,17 @@ describe('Testar tudo', () => {
 
   it('Possui um input para filtro Name', () => {
     render(<App />);
-    const nameInput = screen.getByTestId('name-filter');
-    expect(nameInput).toBeInTheDocument();
+    expect(screen.getByTestId('name-filter')).toBeInTheDocument();
   });
 
-  it('renderiza a tabela', () => {
+  it('Quantidade de options nos inputs', () => {
+    render(<App />)
+    expect(screen.getAllByRole('option').length).toBe(8);
+  })
+
+  it('Renderiza a tabela', () => {
     render(<App />);
-    const table = screen.getByTestId('table-test');
-    expect(table).toBeInTheDocument();
+    expect(screen.getByTestId('table-test')).toBeInTheDocument();
   });
 
   it('', () => {

@@ -79,6 +79,27 @@ function SwProvider({ children }) {
     );
   }, [filterByNumericValues]);
 
+  const clearFilters = () => {
+    setFilterByNumericValues([]);
+    setOptionsList([
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water']);
+    setMyFilteredItens([]);
+    setName('');
+    setComparison('maior que');
+    setNumberData(0);
+    setColumn('population');
+  };
+
+  const clearCollumn = (col) => {
+    setFilterByNumericValues(filterByNumericValues
+      .filter((filter) => (filter.column !== col)));
+    setOptionsList(optionsList.concat([col]));
+  };
+
   const myContext = useMemo(() => ({
     dataAPI,
     handleName,
@@ -93,6 +114,8 @@ function SwProvider({ children }) {
     filterByNumericValues,
     optionsList,
     myFilteredItens,
+    clearFilters,
+    clearCollumn,
   }), [name,
     dataAPI,
     numberData,
@@ -120,3 +143,5 @@ export default SwProvider;
 // WebGLTransformFeedback
 // FileSystemDirectoryHandle
 // Dados pessoais LGPD
+// integração SCPI / CPI SAP
+// ux ui design
