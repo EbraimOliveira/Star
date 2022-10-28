@@ -77,7 +77,7 @@ function Forms() {
       </button>
 
       {filterByNumericValues.length > 0
-        && (filterByNumericValues.map(({ column, comparison, value }, index) => (
+        && (filterByNumericValues?.map(({ column, comparison, value }, index) => (
           <div
             key={ column + index }
             data-testid="filter"
