@@ -26,9 +26,9 @@ function Forms() {
       <label htmlFor="name-filter">
         Name:
         <input
-          value={ name }
+          value={name}
           data-testid="name-filter"
-          onChange={ handleName }
+          onChange={handleName}
         />
       </label>
 
@@ -36,10 +36,10 @@ function Forms() {
         Coluna:
         <select
           data-testid="column-filter"
-          onChange={ columnFilter }
+          onChange={columnFilter}
         >
           {optionsList
-            .map((option) => <option key={ option } value={ option }>{option}</option>)}
+            .map((option) => <option key={option} value={option}>{option}</option>)}
         </select>
       </label>
 
@@ -47,23 +47,23 @@ function Forms() {
         Operador:
         <select
           data-testid="comparison-filter"
-          onChange={ comparisonFilter }
+          onChange={comparisonFilter}
         >
           {comparisonOptions
-            .map((option) => <option key={ option } value={ option }>{option}</option>)}
+            .map((option) => <option key={option} value={option}>{option}</option>)}
 
         </select>
       </label>
       <input
         data-testid="value-filter"
-        value={ numberData }
+        value={numberData}
         type="number"
-        onChange={ changeNumber }
+        onChange={changeNumber}
       />
       <button
         data-testid="button-filter"
         type="button"
-        onClick={ saveFilterInfos }
+        onClick={saveFilterInfos}
       >
         FILTRAR
       </button>
@@ -71,22 +71,22 @@ function Forms() {
       <button
         data-testid="button-remove-filters"
         type="button"
-        onClick={ clearFilters }
+        onClick={clearFilters}
       >
         Remover todas filtragens
       </button>
 
       {filterByNumericValues.length > 0
-        && (filterByNumericValues?.map(({ column, comparison, value }, index) => (
+        && (filterByNumericValues.map(({ column, comparison, value }, index) => (
           <div
-            key={ column + index }
+            key={column + index}
             data-testid="filter"
           >
             <br />
             {`${column}  ${comparison}  ${value} `}
             <button
               type="button"
-              onClick={ () => clearCollumn(column) }
+              onClick={() => clearCollumn(column)}
             >
               x
             </button>

@@ -61,12 +61,12 @@ function SwProvider({ children }) {
 
   const applyFilters = ({ column: newColumn, value, comparison: newComparison }, acc) => {
     switch (newComparison) {
-    case 'maior que':
-      return acc.filter((planet) => +(planet[newColumn]) > +(value));
-    case 'menor que':
-      return acc.filter((planet) => +(planet[newColumn]) < +(value));
-    default:
-      return acc.filter((planet) => +(planet[newColumn]) === +(value));
+      case 'maior que':
+        return acc.filter((planet) => +(planet[newColumn]) > +(value));
+      case 'menor que':
+        return acc.filter((planet) => +(planet[newColumn]) < +(value));
+      default:
+        return acc.filter((planet) => +(planet[newColumn]) === +(value));
     }
   };
 
@@ -113,7 +113,7 @@ function SwProvider({ children }) {
   ]);
 
   return (
-    <SwContext.Provider value={ myContext }>
+    <SwContext.Provider value={myContext}>
       {children}
     </SwContext.Provider>
   );
@@ -124,10 +124,3 @@ SwProvider.propTypes = {
 }.isRequired;
 
 export default SwProvider;
-
-//  pesquisar :
-// WebGLTransformFeedback
-// FileSystemDirectoryHandle
-// Dados pessoais LGPD
-// integração SCPI / CPI SAP
-// ux ui design
